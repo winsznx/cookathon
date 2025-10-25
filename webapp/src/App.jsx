@@ -98,12 +98,16 @@ function App() {
     try {
       setStatus('minting');
 
+      // Mint price is 0.00003 ETH on Base
+      const mintPrice = parseEther('0.00003');
+
       // Call smart contract mint function
       writeContract({
         address: CONTRACT_ADDRESS,
         abi: NFT_ABI,
         functionName: 'mint',
-        args: [address, metadataUri]
+        args: [address, metadataUri],
+        value: mintPrice
       });
     } catch (error) {
       console.error('Mint error:', error);

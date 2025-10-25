@@ -54,11 +54,18 @@ export const NFT_ABI = [
   {
     inputs: [
       { name: 'to', type: 'address' },
-      { name: 'tokenURI', type: 'string' }
+      { name: 'metadataURI', type: 'string' }
     ],
     name: 'mint',
     outputs: [{ name: '', type: 'uint256' }],
-    stateMutability: 'nonpayable',
+    stateMutability: 'payable',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'mintPrice',
+    outputs: [{ name: '', type: 'uint256' }],
+    stateMutability: 'view',
     type: 'function'
   },
   {
