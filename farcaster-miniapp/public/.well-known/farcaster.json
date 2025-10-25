@@ -1,0 +1,16 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIn0",
+    "payload": "eyJkb21haW4iOiJ5b3VyLWRvbWFpbi5jb20ifQ",
+    "signature": "MHg..."
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "Base NFT Minting",
+    "homeUrl": "https://your-domain.com",
+    "iconUrl": "https://your-domain.com/icon.png",
+    "splashImageUrl": "https://your-domain.com/splash.png",
+    "splashBackgroundColor": "#0f0a1e",
+    "webhookUrl": "https://your-domain.com/api/farcaster/webhook"
+  }
+}

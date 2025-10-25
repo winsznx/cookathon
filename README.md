@@ -1,42 +1,63 @@
-# Base NFT Telegram Bot
+# Base NFT Multi-Platform Minting
 
-A complete solution for minting NFTs on Base network through a Telegram bot with Reown AppKit wallet integration.
+A complete solution for minting NFTs on Base network through **Telegram** and **Farcaster** with wallet integration.
+
+## Platforms
+
+### Telegram Bot
+- **Telegram Bot Interface**: Easy-to-use commands for NFT minting
+- **Reown AppKit Integration**: Seamless wallet connection via WalletConnect v2
+
+### Farcaster Mini App (NEW!)
+- **Farcaster Mini App**: Native integration with Farcaster clients (Warpcast)
+- **Auto Wallet Connection**: Uses Farcaster's built-in wallet connector
+- **See [FARCASTER_INTEGRATION.md](./FARCASTER_INTEGRATION.md) for details**
 
 ## Features
 
-- **Telegram Bot Interface**: Easy-to-use commands for NFT minting
-- **Reown AppKit Integration**: Seamless wallet connection via WalletConnect v2
+- **Multi-Platform Support**: Mint NFTs from Telegram or Farcaster
 - **Base Network**: Deploy on Base Mainnet or Sepolia testnet
 - **IPFS Metadata Storage**: Decentralized metadata storage via Pinata
-- **SQLite Database**: Track users and minted NFTs
+- **Unified Database**: Track users and NFTs across both platforms
 - **Smart Contract**: ERC-721 NFT contract with OpenZeppelin standards
+- **Shared Backend**: One API serves both platforms
 
 ## Project Structure
 
 ```
-base-nft-telegram-bot/
-├── backend/           # Telegram bot backend (Node.js + Express)
+cookathon/
+├── backend/              # Backend API (Node.js + Express)
 │   ├── src/
-│   │   ├── commands/      # Bot command handlers
-│   │   ├── handlers/      # Event handlers
-│   │   ├── services/      # Database, blockchain, IPFS services
-│   │   ├── config/        # Configuration and constants
-│   │   └── index.js       # Main entry point
+│   │   ├── commands/         # Telegram bot command handlers
+│   │   ├── handlers/         # Event handlers (Telegram + Farcaster)
+│   │   ├── services/         # Database, blockchain, IPFS services
+│   │   ├── config/           # Configuration and constants
+│   │   └── index.js          # Main entry point
 │   └── package.json
-├── webapp/            # Reown AppKit webapp (React + Vite)
+├── webapp/               # Telegram WebApp (React + Vite + Reown AppKit)
 │   ├── src/
-│   │   ├── App.jsx        # Main app component
-│   │   ├── config.js      # Reown AppKit configuration
-│   │   └── main.jsx       # Entry point
+│   │   ├── App.jsx           # Main app component
+│   │   ├── config.js         # Reown AppKit configuration
+│   │   └── main.jsx          # Entry point
 │   ├── index.html
 │   └── package.json
-├── contracts/         # Smart contracts (Hardhat)
-│   ├── contracts/         # Solidity contracts
-│   ├── scripts/           # Deployment scripts
-│   ├── test/              # Contract tests
+├── farcaster-miniapp/    # Farcaster Mini App (React + Vite) [NEW!]
+│   ├── src/
+│   │   ├── App.jsx           # Main mini app component
+│   │   ├── config.js         # Farcaster Wagmi configuration
+│   │   └── main.jsx          # Entry point
+│   ├── public/
+│   │   └── .well-known/      # Farcaster manifest
+│   ├── index.html
+│   └── package.json
+├── contracts/            # Smart contracts (Hardhat)
+│   ├── contracts/            # Solidity contracts
+│   ├── scripts/              # Deployment scripts
+│   ├── test/                 # Contract tests
 │   └── hardhat.config.js
-├── shared/            # Shared utilities
-└── package.json       # Root workspace configuration
+├── shared/               # Shared utilities
+├── FARCASTER_INTEGRATION.md  # Farcaster integration guide [NEW!]
+└── package.json          # Root workspace configuration
 ```
 
 ## Prerequisites
@@ -147,15 +168,20 @@ Open three terminal windows:
 npm run dev:backend
 ```
 
-**Terminal 2 - Webapp:**
+**Terminal 2 - Telegram Webapp:**
 ```bash
 npm run dev:webapp
 ```
 
-**Terminal 3 - Test Bot:**
+**Terminal 3 - Farcaster Mini App (Optional):**
 ```bash
-# Open Telegram and start a chat with your bot
-# Use /start to begin
+npm run dev:farcaster
+```
+
+**Terminal 4 - Test:**
+```bash
+# For Telegram: Open Telegram and start a chat with your bot
+# For Farcaster: Open http://localhost:5174 in your browser
 ```
 
 ## Usage

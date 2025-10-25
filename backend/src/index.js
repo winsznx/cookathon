@@ -12,6 +12,12 @@ import { handleBalanceCommand } from './commands/balance.js';
 import { handleCollectionCommand } from './commands/collection.js';
 import { handleCallbackQuery } from './handlers/callbackHandler.js';
 import { handleWebAppData } from './handlers/webappHandler.js';
+import {
+  handleFarcasterSession,
+  handleFarcasterMintSuccess,
+  handleFarcasterWebhook,
+  getFarcasterUserStats
+} from './handlers/farcasterHandler.js';
 
 // Import services
 import { initDatabase } from './services/database.js';
@@ -92,6 +98,32 @@ app.post('/api/upload-metadata', async (req, res) => {
       error: error.message
     });
   }
+});
+
+// Farcaster Mini App endpoints
+app.post('/api/farcaster/session', handleFarcasterSession);
+app.post('/api/farcaster/mint-success', handleFarcasterMintSuccess);
+app.post('/api/farcaster/webhook', handleFarcasterWebhook);
+app.get('/api/farcaster/stats', getFarcasterUserStats);
+
+// Serve Farcaster manifest
+app.get('/.well-known/farcaster.json', (req, res) => {
+  res.json({
+    accountAssociation: {
+      header: process.env.FARCASTER_ACCOUNT_HEADER || "eyJmaWQiOjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIn0",
+      payload: process.env.FARCASTER_ACCOUNT_PAYLOAD || "eyJkb21haW4iOiJ5b3VyLWRvbWFpbi5jb20ifQ",
+      signature: process.env.FARCASTER_ACCOUNT_SIGNATURE || "MHg..."
+    },
+    miniapp: {
+      version: "1",
+      name: "Base NFT Minting",
+      homeUrl: process.env.FARCASTER_MINIAPP_URL || process.env.WEBAPP_URL || "http://localhost:5174",
+      iconUrl: `${process.env.FARCASTER_MINIAPP_URL || 'http://localhost:5174'}/icon.png`,
+      splashImageUrl: `${process.env.FARCASTER_MINIAPP_URL || 'http://localhost:5174'}/splash.png`,
+      splashBackgroundColor: "#0f0a1e",
+      webhookUrl: `${process.env.BACKEND_URL || 'http://localhost:3000'}/api/farcaster/webhook`
+    }
+  });
 });
 
 // Bot command handlers

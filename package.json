@@ -6,21 +6,25 @@
   "workspaces": [
     "backend",
     "webapp",
+    "farcaster-miniapp",
     "contracts",
     "shared"
   ],
   "scripts": {
-    "install:all": "npm install && npm install --workspace=backend && npm install --workspace=webapp && npm install --workspace=contracts",
+    "install:all": "npm install && npm install --workspace=backend && npm install --workspace=webapp && npm install --workspace=farcaster-miniapp && npm install --workspace=contracts",
     "verify": "node scripts/verify-setup.js",
     "dev:backend": "npm run dev --workspace=backend",
     "dev:webapp": "npm run dev --workspace=webapp",
+    "dev:farcaster": "npm run dev --workspace=farcaster-miniapp",
     "build:webapp": "npm run build --workspace=webapp",
+    "build:farcaster": "npm run build --workspace=farcaster-miniapp",
     "deploy:contracts": "npm run deploy --workspace=contracts",
     "test:contracts": "npm run test --workspace=contracts"
   },
   "keywords": [
     "nft",
     "telegram",
+    "farcaster",
     "base",
     "reown",
     "appkit",
