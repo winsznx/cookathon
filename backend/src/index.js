@@ -55,6 +55,45 @@ app.post('/api/session', (req, res) => {
   res.json({ success: true });
 });
 
+// Upload metadata to IPFS endpoint
+app.post('/api/upload-metadata', async (req, res) => {
+  try {
+    const { name, description, imageUrl, attributes } = req.body;
+
+    if (!name || !description) {
+      return res.status(400).json({ error: 'Name and description are required' });
+    }
+
+    // Import IPFS service
+    const { createNFTMetadata, uploadMetadata } = await import('./services/ipfs.js');
+
+    // Create metadata object
+    const metadata = createNFTMetadata(
+      name,
+      description,
+      imageUrl || 'https://via.placeholder.com/500',
+      attributes || []
+    );
+
+    // Upload to IPFS
+    const result = await uploadMetadata(metadata);
+
+    res.json({
+      success: true,
+      ipfsHash: result.ipfsHash,
+      uri: result.uri,
+      gatewayUrl: result.gatewayUrl,
+      metadata
+    });
+  } catch (error) {
+    console.error('Error uploading metadata:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 // Bot command handlers
 bot.onText(/\/start/, (msg) => handleStartCommand(bot, msg));
 bot.onText(/\/mint/, (msg) => handleMintCommand(bot, msg));
