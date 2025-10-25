@@ -14,6 +14,7 @@ function App() {
   const [metadataUri, setMetadataUri] = useState('');
   const [sessionId, setSessionId] = useState('');
   const [telegramId, setTelegramId] = useState('');
+  const [isGeneratingUri, setIsGeneratingUri] = useState(false);
 
   const { address, isConnected, chain } = useAccount();
   const [wrongNetwork, setWrongNetwork] = useState(false);
@@ -181,6 +182,42 @@ function App() {
     }
   };
 
+  const handleGenerateMetadataUri = async () => {
+    if (!nftName || !nftDescription) {
+      alert('Please provide NFT name and description first');
+      return;
+    }
+
+    try {
+      setIsGeneratingUri(true);
+
+      const response = await fetch(`${BACKEND_URL}/api/upload-metadata`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: nftName,
+          description: nftDescription,
+          imageUrl: 'https://via.placeholder.com/500/d548ec/ffffff?text=NFT',
+          attributes: []
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setMetadataUri(data.uri);
+        alert(`✅ Metadata uploaded to IPFS!\n\nIPFS Hash: ${data.ipfsHash}\n\nYou can now mint your NFT.`);
+      } else {
+        throw new Error(data.error || 'Failed to upload metadata');
+      }
+    } catch (error) {
+      console.error('Error generating metadata URI:', error);
+      alert('❌ Failed to generate metadata URI. Please try again.');
+    } finally {
+      setIsGeneratingUri(false);
+    }
+  };
+
   return (
     <div className="app">
       <div className="container">
@@ -238,9 +275,18 @@ function App() {
                   value={metadataUri}
                   onChange={(e) => setMetadataUri(e.target.value)}
                   placeholder="ipfs://QmYourMetadataHash"
-                  disabled={status === 'minting' || isConfirming}
+                  disabled={status === 'minting' || isConfirming || isGeneratingUri}
+                  readOnly={isGeneratingUri}
                 />
-                <small>Upload your metadata to IPFS first</small>
+                <button
+                  onClick={handleGenerateMetadataUri}
+                  disabled={isGeneratingUri || !nftName || !nftDescription}
+                  className="generate-uri-button"
+                  type="button"
+                >
+                  {isGeneratingUri ? '⏳ Uploading to IPFS...' : '🚀 Generate Metadata URI'}
+                </button>
+                <small>Click the button above to automatically upload metadata to IPFS</small>
               </div>
 
               <button

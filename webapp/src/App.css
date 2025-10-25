@@ -138,6 +138,35 @@ h1 {
   font-family: 'DM Sans', sans-serif;
 }
 
+/* Generate URI Button */
+.generate-uri-button {
+  width: 100%;
+  padding: 14px;
+  background: rgba(213, 72, 236, 0.1);
+  color: #d548ec;
+  border: 1px solid rgba(213, 72, 236, 0.3);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Space Grotesk', sans-serif;
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+.generate-uri-button:hover:not(:disabled) {
+  background: rgba(213, 72, 236, 0.2);
+  border-color: #d548ec;
+  transform: translateY(-1px);
+}
+
+.generate-uri-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* Mint Button */
 .mint-button {
   width: 100%;
