@@ -1,3 +1,12 @@
+/**
+ * AppKit Configuration for Base NFT Minting
+ *
+ * Required Environment Variables for Vercel:
+ * - VITE_REOWN_PROJECT_ID: Get from https://cloud.reown.com/
+ * - VITE_CONTRACT_ADDRESS: Base NFT contract address
+ * - VITE_BACKEND_URL: Backend API URL for metadata upload
+ */
+
 import { createAppKit } from '@reown/appkit/react';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import { base } from 'viem/chains';
