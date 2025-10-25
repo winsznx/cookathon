@@ -1,0 +1,12 @@
+{
+  "contractAddress": "0x15d56140A49c16EA636C9a7485D8f8E22a592bF0",
+  "network": "base",
+  "deployer": "0x51F19F71e9d073AAB39f6fd003F424984390E5A0",
+  "timestamp": "2025-10-25T02:12:45.317Z",
+  "parameters": {
+    "name": "Base Telegram NFT",
+    "symbol": "BTNFT",
+    "mintPrice": "30000000000000",
+    "maxSupply": 0
+  }
+}

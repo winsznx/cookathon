@@ -1,0 +1,34 @@
+{
+  "name": "base-nft-telegram-bot",
+  "version": "1.0.0",
+  "description": "NFT minting Telegram bot on Base with Reown AppKit integration",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "webapp",
+    "contracts",
+    "shared"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm install --workspace=backend && npm install --workspace=webapp && npm install --workspace=contracts",
+    "verify": "node scripts/verify-setup.js",
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:webapp": "npm run dev --workspace=webapp",
+    "build:webapp": "npm run build --workspace=webapp",
+    "deploy:contracts": "npm run deploy --workspace=contracts",
+    "test:contracts": "npm run test --workspace=contracts"
+  },
+  "keywords": [
+    "nft",
+    "telegram",
+    "base",
+    "reown",
+    "appkit",
+    "web3"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
