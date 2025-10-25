@@ -16,6 +16,10 @@ function App() {
   const [telegramId, setTelegramId] = useState('');
 
   const { address, isConnected, chain } = useAccount();
+  const [wrongNetwork, setWrongNetwork] = useState(false);
+
+  // Base network chainId is 8453
+  const BASE_CHAIN_ID = 8453;
   const { writeContract, data: hash, error: writeError, isPending } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
     hash,
@@ -36,6 +40,13 @@ function App() {
       if (tgId) setTelegramId(tgId);
     }
   }, []);
+
+  useEffect(() => {
+    // Check if connected to correct network
+    if (isConnected && chain) {
+      setWrongNetwork(chain.id !== BASE_CHAIN_ID);
+    }
+  }, [isConnected, chain]);
 
   useEffect(() => {
     // Notify bot when wallet is connected
@@ -187,6 +198,16 @@ function App() {
               <p>Network: {chain?.name}</p>
             </div>
 
+            {wrongNetwork && (
+              <div className="error-message">
+                ⚠️ Wrong Network! Please switch to <strong>Base Network</strong> in your wallet.
+                <br />
+                <small>Current: {chain?.name} (Chain ID: {chain?.id})</small>
+                <br />
+                <small>Required: Base (Chain ID: 8453)</small>
+              </div>
+            )}
+
             <div className="form">
               <div className="form-group">
                 <label>NFT Name</label>
@@ -224,10 +245,11 @@ function App() {
 
               <button
                 onClick={handleMint}
-                disabled={isPending || isConfirming || !metadataUri}
+                disabled={isPending || isConfirming || !metadataUri || wrongNetwork}
                 className="mint-button"
               >
-                {isPending ? 'Waiting for approval...' :
+                {wrongNetwork ? '⚠️ Switch to Base Network' :
+                 isPending ? 'Waiting for approval...' :
                  isConfirming ? 'Confirming transaction...' :
                  isConfirmed ? 'Minted!' :
                  'Mint NFT'}
