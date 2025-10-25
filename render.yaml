@@ -1,0 +1,36 @@
+services:
+  # Backend API Server
+  - type: web
+    name: cookathon-backend
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18.0.0
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: CONTRACT_ADDRESS
+        value: 0x15d56140A49c16EA636C9a7485D8f8E22a592bF0
+      - key: BASE_RPC_URL
+        value: https://mainnet.base.org
+      - key: DEPLOYER_PRIVATE_KEY
+        sync: false
+      - key: BASESCAN_API_KEY
+        sync: false
+      - key: PINATA_API_KEY
+        sync: false
+      - key: PINATA_SECRET_KEY
+        sync: false
+      - key: WEBAPP_URL
+        value: https://mintme-webapp.vercel.app
+      - key: FARCASTER_MINIAPP_URL
+        value: https://mintme-farcaster-miniapp.vercel.app
+      - key: PORT
+        value: 3000
+      - key: DB_PATH
+        value: /opt/render/project/data/bot.db
+    healthCheckPath: /health
+    autoDeploy: true
