@@ -11,6 +11,7 @@ function App() {
   const [status, setStatus] = useState('idle');
   const [nftName, setNftName] = useState('');
   const [nftDescription, setNftDescription] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [metadataUri, setMetadataUri] = useState('');
   const [sessionId, setSessionId] = useState('');
   const [telegramId, setTelegramId] = useState('');
@@ -188,6 +189,11 @@ function App() {
       return;
     }
 
+    if (!imageUrl) {
+      alert('Please provide an image URL (IPFS or HTTPS)');
+      return;
+    }
+
     try {
       setIsGeneratingUri(true);
 
@@ -197,7 +203,7 @@ function App() {
         body: JSON.stringify({
           name: nftName,
           description: nftDescription,
-          imageUrl: 'https://via.placeholder.com/500/d548ec/ffffff?text=NFT',
+          imageUrl: imageUrl,
           attributes: []
         })
       });
@@ -269,6 +275,18 @@ function App() {
               </div>
 
               <div className="form-group">
+                <label>Image URL (IPFS or HTTPS)</label>
+                <input
+                  type="text"
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                  placeholder="ipfs://bafkrei... or https://..."
+                  disabled={status === 'minting' || isConfirming}
+                />
+                <small>Paste your IPFS image URI (e.g., ipfs://bafkreif2t5g4sf4dv3nzue4aqova7v4rteistvf5hmrfkuioppyvjqkc6q)</small>
+              </div>
+
+              <div className="form-group">
                 <label>Metadata URI (IPFS)</label>
                 <input
                   type="text"
@@ -280,13 +298,13 @@ function App() {
                 />
                 <button
                   onClick={handleGenerateMetadataUri}
-                  disabled={isGeneratingUri || !nftName || !nftDescription}
+                  disabled={isGeneratingUri || !nftName || !nftDescription || !imageUrl}
                   className="generate-uri-button"
                   type="button"
                 >
                   {isGeneratingUri ? '⏳ Uploading to IPFS...' : '🚀 Generate Metadata URI'}
                 </button>
-                <small>Click the button above to automatically upload metadata to IPFS</small>
+                <small>Fill in all fields above, then click to upload metadata to IPFS</small>
               </div>
 
               <button
